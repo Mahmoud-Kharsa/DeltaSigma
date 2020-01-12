@@ -1,0 +1,5 @@
+name = "DeltaSigma"
+uuid = "26c09409-0a2f-4902-899b-79cd65260a13"
+
+[deps]
+ControlSystems = "a6e380b2-a6ca-5380-bf3e-84a91bcd477e"
