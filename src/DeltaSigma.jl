@@ -4,6 +4,7 @@ export
     calculateSNR,
     peakSNR,
     predictSNR,
+    realizeNTF,
     simulateDSM,
     simulateMS,
     simulateSNR,
@@ -13,6 +14,7 @@ export
 include("calculateSNR.jl")
 include("peakSNR.jl")
 include("predictSNR.jl")
+include("realizeNTF.jl")
 include("simulateDSM.jl")
 include("simulateMS.jl")
 include("simulateSNR.jl")
