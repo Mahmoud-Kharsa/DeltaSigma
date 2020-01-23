@@ -3,12 +3,12 @@ using ControlSystems
 
 function synthesizeNTF(order, osr, opt, H_inf, f0)
     if f0 != 0
-        println("No band pass yet!")
+        #println("No band pass yet!")
         return
     end
 
     if opt == 3
-        println("No opt 3 yet!")
+        #println("No opt 3 yet!")
         return
     end 
 
@@ -49,29 +49,49 @@ function synthesizeNTF(order, osr, opt, H_inf, f0)
             x = 0.3 ^ (order-1)
             converged = 0
             for itn=1:Hinf_itn_limit
+
+                #println("********************************************")
                 me2 = -0.5 * (x^(2.0/order))
                 w = (2 * collect(1:order) .- 1 ) * pi/order
-                mb2 = 1 .+ me2 * exp.(im * w)
-                p = mb2 - sqrt.(mb2 .^ 2 .- 1)
-                #println(p);
+                #println("w: ", w)
 
+                mb2 = 1 .+ me2 * exp.(im * w)
+                
+                #println("mb2: ", mb2)
+                
+                for i=1:length(mb2)
+                    temp1 = 0 + 0im
+                    if abs(real(mb2[i])) >= 1.0e-16
+                        temp1 += real(mb2[i])
+                    end
+                    if abs(imag(mb2[i])) >= 1.0e-16
+                        temp1 += imag(mb2[i]) * im
+                    end
+                    mb2[i] = temp1;
+                end
+
+                #println("mb2_N: ", mb2)
+
+                p = mb2 - sqrt.(mb2 .^ 2 .- 1)
                 out = findall(x -> abs(x) > 1, p)
                 p[out] = 1.0 ./ p[out]
-                #println(p)
 
-                p = sort(p, by = x -> (abs(x), imag(x)))
+                p = sort(p, by = x -> (abs(x), imag(x)), rev=true)
 
-                #println(p);
-                #p = round.(p, digits=6)
-                #println(p);
+                #println("p: ", p)
+
                 ntf = zpk(z, p, 1, 1)
+
                 f = real(ntf(z_inf)[1, 1]) - H_inf
 
+                
+
                 if itn == 1
-                    delta_x = -f/100
+                    delta_x = -f/100;
                 else
-                    delta_x = -f*delta_x/(f-fprev)
+                    delta_x = -f*delta_x/(f-fprev);
                 end
+                
                 
                 xplus = x+delta_x;
                 if xplus>0
@@ -103,5 +123,10 @@ function synthesizeNTF(order, osr, opt, H_inf, f0)
             opt_iteration = 0
         end
     end 
-    return ntf = zpk(z, p, 1, 1)
+   
+    ntf = zpk(z, p, 1, 1)
+    #println("Passed1")
+    #println(ntf);
+    #println("Passed2")
+    return ntf
 end
