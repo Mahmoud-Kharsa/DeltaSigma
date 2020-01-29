@@ -1,4 +1,6 @@
-function simulateSNR(arg1, osr; amp=vcat(-120:10:-20, -15, -10:0), f0=0, nlev=2, f=NaN, k=13)
+using AbstractFFTs
+
+function simulateSNR(arg1, osr, amp=vcat(-120:10:-20, -15, -10:0), f0=0, nlev=2, f=NaN, k=13)
     osr_mult = 2
     if f0 != 0
         osr_mult = 4
@@ -28,10 +30,11 @@ function simulateSNR(arg1, osr; amp=vcat(-120:10:-20, -15, -10:0), f0=0, nlev=2,
     end
 
     Ntransient = 100
-    soft_start = 0.5 * (1 .- cos.(2*pi/Ntransient * (0:(Ntransient/2-1))))
-    tone = M * sin.(2*pi*F/N * (0:(N+Ntransient-1)))
-    tone[1:div(Ntransient,2)] = tone[1:div(Ntransient,2)] .* soft_start
-    window = 0.5 * (1 .- cos.(2*pi*(0:N-1)/N))  # Hann window
+    soft_start = 0.5 * (1 .- cos.(2*pi/Ntransient * (0:(Ntransient/2-1))'))
+    tone = M * sin.(2*pi*F/N * (0:(N+Ntransient-1))')
+    tone[1:div(Ntransient,2)] = tone[1:div(Ntransient,2)] .* soft_start'
+    window = 0.5 * (1 .- cos.(2*pi*(0:N-1)'/N))  # Hann window
+
     if f0 == 0
         # Exclude DC and its adjacent bin
         inBandBins = div(N,2) .+ (3:round(Int, N/(osr_mult*osr)))
@@ -45,10 +48,10 @@ function simulateSNR(arg1, osr; amp=vcat(-120:10:-20, -15, -10:0), f0=0, nlev=2,
     snr = zeros(size(amp))
     i = 1
     for A = 10 .^ (amp/20)
-        v, = simulateDSM(A*tone, arg1, nlev)
+        v, = simulateDSM(A*tone, arg1, [nlev])
         hwfft = fftshift(fft(window .* v[(1+Ntransient):(N+Ntransient)]))
         snr[i] = calculateSNR(hwfft[inBandBins], F)
-        i = i+1;
+        i = i+1
     end
 
     return snr, amp
