@@ -1,12 +1,12 @@
-function ds_optzeros(n, opt_odd)
+function ds_optzeros(n , opt_odd)
 
     if n == 1
         optZeros = 0
     elseif n == 2
         if opt_odd
-            optZeros = sqrt(1/3)
+            optZeros = [sqrt(1/3)]
         else
-            optZeros = 0
+            optZeros = [0]
         end
     elseif n == 3
         optZeros = [sqrt(3/5) 0]
