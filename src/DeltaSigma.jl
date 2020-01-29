@@ -1,10 +1,12 @@
 module DeltaSigma
 
-export 
+export
+    simulateDSM,
     simulateSNR,
     synthesizeNTF
 
 #Main functions
+include("simulateDSM.jl")
 include("simulateSNR.jl")
 include("synthesizeNTF.jl")
 
