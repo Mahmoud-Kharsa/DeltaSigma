@@ -205,7 +205,7 @@ function realizeNTF(ntf,form,stf)
                     T[j,i] = product*Dfactor
                     T[j-1,i] = product
                 end
-                if( odd )
+                if odd
                     T[1,i] = product/(z-1)
                 end
             end
@@ -416,7 +416,7 @@ function realizeNTF(ntf,form,stf)
             for i=1:order*2
                 z = zSet[i]
                 #L1(z) = 1-1/H(z)
-                L[i] = 1-ntf_p_roots/ntf_z_roots
+                L1[i] = 1-ntf_p_roots/ntf_z_roots
                 if odd
                     product = 1/(z-1)
                     T[order,i] = product
