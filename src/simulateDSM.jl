@@ -5,33 +5,44 @@ function orth(A)
     return svd(A).U[:,1:rank(A)]
 end
 
-function simulateDSM(u, ntf, nlev=[2], x0=0)
+function simulateDSM(u, arg2, nlev=[2], x0=0)
     nu = size(u, 1)
     nq = length(nlev)
 
-    z, p, k = zpkdata(ntf)
-    order = length(z[1])
-    
-    ABCD = ss(-1/ntf)
-    A = ABCD.A
-    B2 = ABCD.B
-    C = ABCD.C
-    D2 = ABCD.D
+    if arg2 isa TransferFunction
+        ntf = arg2
+        z, p, k = zpkdata(ntf)
+        order = length(z[1])
+        
+        ABCD = ss(-1/ntf)
+        C = ABCD.C
+        Sinv = orth([C' Matrix(I,order,order)]) / norm(C)
+        S = inv(Sinv)
+        C = C*Sinv
+        if C[1] < 0
+            S = -S
+            Sinv = -Sinv
+        end
+        A = S*ABCD.A*Sinv
+        B = S*ABCD.B
+        B = [-B B]
+        C = [1 zeros(1,order-1)]
+        D = 1
+    elseif arg2 isa Array
+        if size(arg2,2) > 2 && size(arg2,2) == (nu+size(arg2,1))    # ABCD dimensions OK
+            ABCD = arg2
+            order = size(ABCD, 1) - nq
 
-    Sinv = orth([C' Matrix(I,order,order)]) / norm(C)
-    S = inv(Sinv)
-    C = C*Sinv
-    if C[1] < 0
-        S = -S
-        Sinv = -Sinv
+            A = ABCD[1:order, 1:order]
+            B = ABCD[1:order, (order+1):(order+nu+nq)]
+            C = ABCD[(order+1):(order+nq), 1:order]
+            D = ABCD[(order+1):(order+nq), (order+1):(order+nu)]
+        else
+            throw(ArgumentError("ABCD argument does not have proper dimensions"))
+        end
+    else
+        throw(ArgumentError("second argument is neither an ABCD matrix nor an NTF"))
     end
-    A = S*A*Sinv
-    B2 = S*B2
-    C = [1 zeros(1,order-1)]
-    D2 = 0
-    B1 = -B2
-    D1 = 1
-    B = [B1 B2]
 
     N = length(u)
     v = zeros(nq, N)
@@ -43,7 +54,7 @@ function simulateDSM(u, ntf, nlev=[2], x0=0)
     end
 
     for i = 1:N
-        y[:,i] = C*x0 + D1*u[:,i]
+        y[:,i] = C*x0 + D*u[:,i]
         v[:,i] = ds_quantize(y[:,i], nlev)
         x0 = A*x0 + B*[u[:,i]; v[:,i]]
         xn[:,i] = x0
