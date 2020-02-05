@@ -1,8 +1,4 @@
 function synthesizeNTF(order = 3, osr = 64.0, opt = 0, H_inf = 1.5, f0 = 0.0)
-    if opt == 3
-        println("No opt 3 yet!")
-        return
-    end 
 
     # Find Zeros
     if f0 != 0 #Bandpass	
@@ -16,7 +12,7 @@ function synthesizeNTF(order = 3, osr = 64.0, opt = 0, H_inf = 1.5, f0 = 0.0)
         if opt == 0
             z = zeros(order)
         else
-            z = dw * ds_optzeros(order, isodd(opt))
+            z = dw * ds_optzeros(order, opt == 1)
             if isempty(z)
                 return
             end
@@ -63,37 +59,25 @@ function synthesizeNTF(order = 3, osr = 64.0, opt = 0, H_inf = 1.5, f0 = 0.0)
                 converged = 0
                 for itn = 1:Hinf_itn_limit
 
-                    # println("********************************************")
                     me2 = -0.5 * (x^(2.0 / order))
                     w = (2 * collect(1:order) .- 1 ) * pi / order
-                    # println("w: ", w)
-
                     mb2 = 1 .+ me2 * exp.(im * w)
-                    
-                    # println("mb2: ", mb2)
-
-                    # println("mb2_N: ", mb2)
 
                     p = mb2 - sqrt.(mb2.^2 .- 1)
                     out = findall(x->abs(x) > 1, p)
                     p[out] = 1.0 ./ p[out]
 
-                    #println("u: ", p)
-
                     p = sort(p, by = x->(abs(x), imag(x)), rev = true)
 
                     ntf = createZPK(z, p, 1, 1)
 
-                    f = real(ntf(z_inf)[1, 1]) - H_inf
-                    #println("f: ", f)
-                    
+                    f = real(ntf(z_inf, false)[1, 1]) - H_inf                  
 
                     if itn == 1
                         delta_x = -f / 100
                     else
                         delta_x = -f * delta_x / (f - fprev)
                     end
-                    
                     
                     xplus = x + delta_x
                     if xplus > 0
@@ -139,9 +123,7 @@ function synthesizeNTF(order = 3, osr = 64.0, opt = 0, H_inf = 1.5, f0 = 0.0)
 
                 ntf = createZPK(z, p, 1, 1)
 
-                f = real(ntf(z_inf)[1, 1]) - H_inf
-
-                println("f: ", f)
+                f = real(ntf(z_inf, false)[1, 1]) - H_inf
 
                 # 	[x f]
                 if itn==1
@@ -174,14 +156,13 @@ function synthesizeNTF(order = 3, osr = 64.0, opt = 0, H_inf = 1.5, f0 = 0.0)
             end
         end
 
-
-
-        #optimization
-        if opt < 3   # Do not optimize the zeros
-            opt_iteration = 0
-        else
-            return
-        end
+        #optimization Needs opt toolbox
+        # if opt < 3   # Do not optimize the zeros
+        #     opt_iteration = 0
+        # else
+        #     return
+        # end
+        
     end 
    
     ntf = createZPK(z, p, 1, 1)
