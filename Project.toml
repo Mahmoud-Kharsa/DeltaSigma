@@ -2,6 +2,6 @@ name = "DeltaSigma"
 uuid = "26c09409-0a2f-4902-899b-79cd65260a13"
 
 [deps]
-AbstractFFTs = "621f4979-c628-5d54-868e-fcf4e3e8185c"
 ControlSystems = "a6e380b2-a6ca-5380-bf3e-84a91bcd477e"
+FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"

@@ -5,9 +5,12 @@ function orth(A)
     return svd(A).U[:,1:rank(A)]
 end
 
-function simulateDSM(u, arg2, nlev=[2], x0=0)
+function simulateDSM(u, arg2, nlev=2, x0=0)
     nu = size(u, 1)
     nq = length(nlev)
+    if size(nlev) == ()
+        nlev = [nlev]
+    end
 
     if arg2 isa TransferFunction
         ntf = arg2

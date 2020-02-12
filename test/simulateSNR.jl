@@ -1,14 +1,26 @@
-using ControlSystems
+using Test
 using DeltaSigma
 using MAT
 
 @testset "simulateSNR" begin
-    vars = matread("simulateSNR.mat")
-    OSR = 32
-    H = zpk(vars["H_z"][:,1], vars["H_p"][:,1], 1, 1)
-    snr_test = vars["snr"]
-    amp_test = vars["amp"]
-    
-    snr, amp = simulateSNR(H, OSR)
+
+    # test vectors
+    N = 4   # number of tests
+    order = [  5,   8,  7,  7]
+    osr   = [ 32,  64,  8,  8]
+    H_inf = [1.5, 1.5,  2,  8]
+    f0    = [  0, 1/8,  0,  0]
+    nlev  = [  2,   2, 17, 17]
+    amp = hcat((-120:10:-20)', [-15], (-10:0)')
+
+    # MATLAB output
+    test = matread("simulateSNR.mat")
+
+    for i = 1:N
+        H = synthesizeNTF(order[i], osr[i], 1, H_inf[i], f0[i])
+        snr, amp = simulateSNR(H, osr[i], amp, f0[i], nlev[i])
+        @test isapprox(test["snr$i"], snr)
+        @test test["amp$i"] == amp
+    end
 
 end
