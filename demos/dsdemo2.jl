@@ -4,10 +4,7 @@ using MAT
 using Plots
 
 OSR = 32
-# use output from MATLAB to bypass synthesizeNTF for now
-# H = synthesizeNTF(5,OSR,1)
-vars = matread("test/simulateDSM.mat")
-H = zpk(vars["H_z"][:,1], vars["H_p"][:,1], 1, 1)
+H = synthesizeNTF(5,OSR,1)
 N = 8192
 fB = ceil(N/(2*OSR))
 ftest=floor(2/3*fB)
