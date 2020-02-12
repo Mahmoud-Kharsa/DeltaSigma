@@ -1,1 +1,1 @@
-println("Testing...")
+include("synthesizeNTF.jl")
