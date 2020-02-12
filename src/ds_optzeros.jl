@@ -63,7 +63,7 @@ function ds_optzeros(n , opt_odd)
             optZeros = [ 0 0.30524384 0.50836649 0.6836066 0.82537239 0.92772336 0.98615167 ]
         end
     else
-        println("Optimized zeros for n>14 are not available.");
+        throw(ArgumentError("Optimized zeros for n>14 are not available."))
         return;
     end
 

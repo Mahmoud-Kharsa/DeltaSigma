@@ -1,10 +1,8 @@
 module DeltaSigma
 
-__precompile__(false)
-
-export simulateSNR, synthesizeNTF
-
-using ControlSystems
+export 
+    simulateSNR,
+    synthesizeNTF
 
 #Main functions
 include("simulateSNR.jl")

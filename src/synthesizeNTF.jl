@@ -1,7 +1,22 @@
+using ControlSystems
+
 function synthesizeNTF(order = 3, osr = 64.0, opt = 0, H_inf = 1.5, f0 = 0.0)
 
+    if f0 > 0.5
+        throw(ArgumentError("f0 must be less than 0.5."))
+    end
+    if f0 != 0 && f0 < (0.25/osr)
+        @warn "Creating a lowpass ntf"
+    end
+    if f0 != 0 && isodd(order)
+        throw(ArgumentError("order must be even for a bandpass modulator."))
+    end
+    if length(opt) > 1 && length(opt) != order
+        throw(ArgumentError("The opt vector must be of length $order(=order)."))
+    end
+
     # Find Zeros
-    if f0 != 0 #Bandpass	
+    if f0 != 0 # Bandpass
         order = order ÷ 2
         dw = pi / (2 * osr)
     else
@@ -36,7 +51,7 @@ function synthesizeNTF(order = 3, osr = 64.0, opt = 0, H_inf = 1.5, f0 = 0.0)
 
     Hinf_itn_limit = 100
 
-    # Determin Poles
+    # Determine Poles
     opt_iteration = 5
     delta_x = 0
     fprev = 0
@@ -51,8 +66,7 @@ function synthesizeNTF(order = 3, osr = 64.0, opt = 0, H_inf = 1.5, f0 = 0.0)
         if f0 == 0 # Lowpass
             HinfLimit = 2^order
             if H_inf >= HinfLimit
-                println("%s warning: Unable to achieve specified Hinf.")
-                println("Setting all NTF poles to zero.")
+                @warn "Unable to achieve specified Hinf. Setting all NTF poles to zero."
                 p = zeros(order)
             else
                 x = 0.3^(order - 1)
@@ -71,7 +85,7 @@ function synthesizeNTF(order = 3, osr = 64.0, opt = 0, H_inf = 1.5, f0 = 0.0)
 
                     ntf = createZPK(z, p, 1, 1)
 
-                    f = real(ntf(z_inf, false)[1, 1]) - H_inf                  
+                    f = real(ntf(z_inf, false)[1, 1]) - H_inf
 
                     if itn == 1
                         delta_x = -f / 100
@@ -93,15 +107,13 @@ function synthesizeNTF(order = 3, osr = 64.0, opt = 0, H_inf = 1.5, f0 = 0.0)
                     end
 
                     if x > 1e6
-                        println(itn)
-                        println("warning: Unable to achieve specified Hinf.")
-                        println("Setting all NTF poles to zero")
+                        @warn "Unable to achieve specified Hinf. Setting all NTF poles to zero."
                         P = zeros(order)
                         break
                     end
 
                     if itn == Hinf_itn_limit
-                        println("warning: Danger! Iteration limit exceeded.")
+                        @warn "Danger! Iteration limit exceeded."
                     end
                 end
             end
@@ -144,24 +156,23 @@ function synthesizeNTF(order = 3, osr = 64.0, opt = 0, H_inf = 1.5, f0 = 0.0)
                 end
 
                 if x>1e6
-                    println("warning: Unable to achieve specified Hinf.\n")
-                    println("Setting all NTF poles to zero.\n")
+                    @warn "Unable to achieve specified Hinf. Setting all NTF poles to zero."
                     P = zeros(order)
                     break
                 end
 
                 if itn == Hinf_itn_limit
-                    println("warning: Danger! Hinf iteration limit exceeded.\n")
+                    @warn "Danger! Iteration limit exceeded."
                 end
             end
         end
 
         #optimization Needs opt toolbox
-        # if opt < 3   # Do not optimize the zeros
-        #     opt_iteration = 0
-        # else
-        #     return
-        # end
+        if opt < 3   # Do not optimize the zeros
+            opt_iteration = 0
+        else
+            return
+        end
         
     end 
    
