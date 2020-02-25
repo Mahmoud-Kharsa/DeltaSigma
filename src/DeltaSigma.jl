@@ -4,6 +4,7 @@ export
     calculateSNR,
     dbv,
     simulateDSM,
+    simulateMS,
     simulateSNR,
     synthesizeNTF
 
@@ -11,6 +12,7 @@ export
 include("calculateSNR.jl")
 include("dbv.jl")
 include("simulateDSM.jl")
+include("simulateMS.jl")
 include("simulateSNR.jl")
 include("synthesizeNTF.jl")
 
