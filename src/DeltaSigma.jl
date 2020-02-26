@@ -19,5 +19,6 @@ include("synthesizeNTF.jl")
 #Helper functions
 include("createZPK.jl")
 include("ds_optzeros.jl")
+include("selectElement.jl")
 
 end # module
