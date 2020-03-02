@@ -44,7 +44,7 @@ end
     
 # Use a loophole to set complex poles and zeros in zpk objects 
 function ztf = setPolesAndZeros(z,p,k)
-    tol = 3e-5		# tolerance for pole-zero cancellation
+    tol = 3e-5	
     Z = zpk(0,[],1,1)
     ztf = zpk([],[],k,1)
     for i = 1:length(p)
