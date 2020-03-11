@@ -2,6 +2,8 @@ module DeltaSigma
 
 export
     calculateSNR,
+    find2dPIS,
+    hull2d,
     peakSNR,
     predictSNR,
     realizeNTF,
@@ -12,6 +14,8 @@ export
 
 # Main functions
 include("calculateSNR.jl")
+include("find2dPIS.jl")
+include("hull2d.jl")
 include("peakSNR.jl")
 include("predictSNR.jl")
 include("realizeNTF.jl")

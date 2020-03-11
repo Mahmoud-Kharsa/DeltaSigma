@@ -4,14 +4,6 @@ using Roots
 Pkg.add("Polynomials")
 using Polynomials
 
-function evalRPoly(roots,x)
-    y = ones(Float64,length(x),1)
-    for i=1:length(roots)
-        y = y.*(x-roots[i])
-    end
-    return y
-end
-
 function realizeNTF(ntf,form,stf)
     #function returns a transfer function
     # utilizes the return function of synthesizedNTF to feed into realize NTF
@@ -194,6 +186,7 @@ function realizeNTF(ntf,form,stf)
             end
             b[order+1] = 1
         end
+    end
     println("a: ",a)
     println("b: ",b)
     println("g: ",g)
