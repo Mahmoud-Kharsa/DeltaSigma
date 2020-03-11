@@ -53,6 +53,7 @@ function hull2d(p)
     ib=findall(a->a==0,isAbove)
     above = p[ia,:]
     below = p[ib,:]
+    println("Print Below: ",below)
 
     #Sort them in terms of increasing first coordinate.
     if any(x->x==1,isAbove)
@@ -76,7 +77,6 @@ function hull2d(p)
     b = below[2,:]
     b=b'
     v = vcat(a,b)
-    # println("Get V: ",v)
     i = vcat(ib[1],ib[2])
     nv = 2
     # println("Before: ",size(v))
@@ -84,45 +84,33 @@ function hull2d(p)
     countone=0
     countzero=0
     for n=3:nb
-        # count=count+1
         p = below[n,:]
-        # println("Count: ",count)
-        # println("A0: ",a)
-        # println("B0: ",b)
         get=leftof(p',a,b)
-        # println("Value0: ",get)
+        count=count+1
+        println("Count: ",count)
+        println("Value: ",get)
         if get==Bool[1]
             countone=countone+1
-            cond=true
         end
         if get==Bool[0]
             countzero=countzero+1
+        end
+        if get==1
+            cond=true
+        else
             cond=false
         end
         while !cond
+            # count=count+1
+            # println("Count: ",count,"Get: ",cond)
             nv = nv-1
-            # println("1: ",nv)
             v = v[1:nv,:]
-            # println("2: ",v)
             i = i[1:nv]
-            # println("3: ",i)
             b = a
-            # println("4: ",b)
             if nv>1
                 a = v[nv-1,:]
-                a=a'
-                # println("5: ",a)
             else
                 break
-            end
-            get=leftof(p',a,b)
-            if get==Bool[1]
-                countone=countone+1
-                cond=true
-            end
-            if get==Bool[0]
-                countzero=countzero+1
-                cond=false
             end
         end
         v = vcat(v,p')
@@ -130,49 +118,28 @@ function hull2d(p)
         nv = nv+1
         a = b
         b = p'
-        # println("A: ",a)
-        # println("B: ",b)
-        # println("")
-        # println("")
     end
-    # println("Count One: ",countone)
-    # println("Count Zero: ",countzero)
+    println("Count One: ",countone)
+    println("Count Zero: ",countzero)
     # println("After: ",size(v))
 
-    na = size(above,1)
-    for n=na:-1:1
-        p = above[n,:]
-        get=leftof(p',a,b)
-        if get==Bool[1]
-            countone=countone+1
-            cond=true
-        end
-        if get==Bool[0]
-            countzero=countzero+1
-            cond=false
-        end
-        while ~cond && nv>2
-            nv = nv-1
-            v = v[1:nv,:]
-            i = i[1:nv]
-            b = a
-            a = v[nv-1,:]
-            a=a'
-            get=leftof(p',a,b)
-            if get==Bool[1]
-                countone=countone+1
-                cond=true
-            end
-            if get==Bool[0]
-                countzero=countzero+1
-                cond=false
-            end
-        end
-        v = vcat(v,p')
-        i = vcat(i,ia[n])
-        nv = nv+1
-        a = b
-        b = p'
-    end
+    # na = size(above,1)
+    # for n=na:-1:1
+    #     p = above[n,:]
+    #     get=leftof(p',a,b)
+    #     while ~get && nv>2
+    #         nv = nv-1
+    #         v = v[1:nv,:]
+    #         i = i[1:nv]
+    #         b = a
+    #         a = v[nv-1,:]
+    #     end
+    #     v = vcat(v,p')
+    #     i = vcat(i,ia[n])
+    #     nv = nv+1
+    #     a = b
+    #     b = p'
+    # end
+    
     return v,i
 end
