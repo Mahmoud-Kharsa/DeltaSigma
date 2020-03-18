@@ -74,8 +74,6 @@ function find2dPIS(u,ABCD,options)
     # ymax = max(x(2,:)) 
     # dy = ymax-ymin
     # axis1 = [ xmin-dx/4 xmax+dx/4 ymin-dy/4 ymax+dy/4 ]
-
-    # Take the convex hull of the result
     s,i = hull2d(x_new)
     # 22x2
     s=s'
@@ -84,20 +82,13 @@ function find2dPIS(u,ABCD,options)
     ec=ec'
 
     for i = 1:itnLimit
-        println("Iteration: ",i)
-        # Inflate the hull
         x1=ones(Float64,1,size(s,2))
         shift = ec'*x1
         s = shift + (1+expFactor)*(s-shift)
-
-        # Split the set
         splus,eplus,sminus,eminus=dssplit2d(u,ABCD,s)
-        # Map the two halves 
         s1 = dsmap(u,ABCD,2,splus,eplus,1)
         s2 = dsmap(u,ABCD,2,sminus,eminus,-1)
         ns = hcat(s1[:,1:size(s1,2)-1],s2[:,1:size(s2,2)-1])
-
-        # Test for inclusion: ns inside s (the inflated hull)
         out = outconvex2d(ns,s)
         # if dbg
         # 	clf hold on grid axis(axis1)
@@ -113,13 +104,10 @@ function find2dPIS(u,ABCD,options)
         # 	title(str)
         #     drawnow
         # end
-        if out == 0
-        	break
+        if all(x->x==0,out)
+            break
         end
-        println("ns: ",ns)
-        # take the hull and repeat
         s,i = hull2d(ns)
-        println("s: ",s)
         s=s'
     end
     return s
