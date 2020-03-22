@@ -2,6 +2,7 @@ using DeltaSigma
 using Test
 
 include("calculateSNR.jl")
+include("exampleHBF.jl")
 include("find2dPIS.jl")
 include("mapABCD.jl")
 include("peakSNR.jl")
