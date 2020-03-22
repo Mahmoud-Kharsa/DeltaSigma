@@ -32,6 +32,8 @@ function selectElement(v, sy, dw, tri=0)
     
     # Go through sv possibilities one by one, until one which meets the
     # v = sv'*dw constraint is found.
+    error("dw not ones has a bug currently");
+    
     i = 1;				    # Selection level
     pointer =  ones(1,M);	# Array of pointers to selected elements
     selected = zeros(1,M);	# Selected elements
