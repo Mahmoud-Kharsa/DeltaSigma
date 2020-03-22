@@ -14,7 +14,7 @@ using MAT
     amp = hcat((-120:10:-20)', [-15], (-10:0)')
 
     # MATLAB output
-    test = matread("simulateSNR.mat")
+    test = matread("resources/simulateSNR.mat")
 
     for i = 1:N
         H = synthesizeNTF(order[i], osr[i], 1, H_inf[i], f0[i])
