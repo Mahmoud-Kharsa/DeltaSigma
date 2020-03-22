@@ -1,5 +1,4 @@
 using ControlSystems
-using MAT
 using Polynomials
 
 function simulateMS(v, M, mtf, d, dw, sx0)
@@ -8,45 +7,6 @@ function simulateMS(v, M, mtf, d, dw, sx0)
     sx0 = []
     M = 16
     d = 0 
-
-    # #Case 1
-    # file = matopen("v1.mat")
-    # v = read(file, "v")
-    # close(file)
-    # mtf = zpk([1], [0], 1, 1)
-
-    #Case 2
-    # file = matopen("v2.mat")
-    # v = read(file, "v")
-    # close(file)
-    # mtf = zpk([ 1, 1 ], [ 0.3, 0.3 ], 1, 1)
-    
-    #Case 3
-    # file = matopen("v3.mat")
-    # v = read(file, "v")
-    # close(file)
-    # mtf = zpk([1], [0], 1, 1)
-
-    #Case 4
-    # file = matopen("v4.mat")
-    # v = read(file, "v")
-    # close(file)
-    # mtf = zpk([1], [0], 1, 1)
-    # d = 0.5
-
-    #Case 5
-    # file = matopen("v5.mat")
-    # v = read(file, "v")
-    # close(file)
-    # mtf = synthesizeNTF(2,25,1,2)
-
-    #Case 6
-    file = matopen("v6.mat")
-    v = read(file, "v")
-    close(file)
-    mtf = synthesizeNTF(4,25*0.9,1,1.3)
-
-
 
     order = length(mtf.matrix[1].p);
     if isempty(dw)
