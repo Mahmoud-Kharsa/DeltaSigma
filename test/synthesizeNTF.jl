@@ -17,7 +17,7 @@ using MAT
     f0    = [  0,   0, 0.125, 0.125, 0, 0,   0,  0,  0,    0]
 
     # MATLAB output
-    test = matread("synthesizeNTF.mat")
+    test = matread("resources/synthesizeNTF.mat")
 
     for i = 1:N
         ntf = synthesizeNTF(order[i], osr[i], opt[i], H_inf[i], f0[i])
@@ -25,7 +25,7 @@ using MAT
         z, p, k = data[1][1], data[2][1], data[3][1]
         testz = vec(test["ntf$i"]["z"])
         testp = vec(test["ntf$i"]["p"])
-        testk = vec(test["ntf$i"]["k"])
+        testk = test["ntf$i"]["k"]
         sort!(z, by = x->(real(x), imag(x)))
         sort!(p, by = x->(real(x), imag(x)))
         sort!(testz, by = x->(real(x), imag(x)))

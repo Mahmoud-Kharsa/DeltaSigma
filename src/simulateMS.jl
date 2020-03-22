@@ -1,12 +1,7 @@
 using ControlSystems
 using Polynomials
 
-function simulateMS(v, M, mtf, d, dw, sx0)
-
-    dw = []
-    sx0 = []
-    M = 16
-    d = 0 
+function simulateMS(v, M, mtf, d=0, dw=[], sx0=[])
 
     order = length(mtf.matrix[1].p);
     if isempty(dw)
