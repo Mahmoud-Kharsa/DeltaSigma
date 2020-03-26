@@ -2,6 +2,7 @@ module DeltaSigma
 
 export
     calculateSNR,
+    mapABCD,
     peakSNR,
     predictSNR,
     realizeNTF,
@@ -13,6 +14,7 @@ export
 
 # Main functions
 include("calculateSNR.jl")
+include("mapABCD.jl")
 include("peakSNR.jl")
 include("predictSNR.jl")
 include("realizeNTF.jl")
