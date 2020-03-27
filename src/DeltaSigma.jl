@@ -2,6 +2,7 @@ module DeltaSigma
 
 export
     calculateSNR,
+    find2dPIS,
     mapABCD,
     peakSNR,
     predictSNR,
@@ -25,6 +26,7 @@ include("simulateMS.jl")
 include("simulateSNR.jl")
 include("stuffABCD.jl")
 include("synthesizeNTF.jl")
+include("PosInvSet/find2dPIS.jl")
 
 # Helper functions
 include("calculateTF.jl")
