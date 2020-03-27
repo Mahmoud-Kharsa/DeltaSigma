@@ -6,6 +6,7 @@ export
     peakSNR,
     predictSNR,
     realizeNTF,
+    scaleABCD,
     simulateDSM,
     simulateMS,
     simulateSNR,
@@ -18,6 +19,7 @@ include("mapABCD.jl")
 include("peakSNR.jl")
 include("predictSNR.jl")
 include("realizeNTF.jl")
+include("scaleABCD.jl")
 include("simulateDSM.jl")
 include("simulateMS.jl")
 include("simulateSNR.jl")
