@@ -60,7 +60,25 @@ function find2dPIS(u, ABCD, options=[])
         out = outconvex2d(ns, s)
 
         if dbg == 1
-            # TODO: Implement
+            plot(legend=false, size=(550,450))
+            plot!(xlims=(axis1[1], axis1[2]), ylims=(axis1[3], axis1[4]))
+            plot!(xticks=round(axis1[1]):0.5:round(axis1[2]))
+            plot!(yticks=round(axis1[3]):1:round(axis1[4]))
+
+            plot!(ec[1,:], ec[2,:], line=(:scatter), marker=(6, :white, stroke(:red)))
+            plot!( x[1,:], x[2,:], line=(:scatter), marker=(2, :black))
+
+            outi = (out .!= 0)[:]
+            plot!(ns[1,outi], ns[2,outi], line=(:scatter), marker=(:square, :white, stroke(:red)))
+
+            polyplot!(s, :blue)
+            polyplot!(s1, :magenta)
+            polyplot!(s2, :cyan)
+
+            str = @sprintf("Iteration %d: %d image vertices outside", i, sum(outi))
+            plot!(title=str)
+            display(plot!())
+            sleep(0.1)
         end
 
         if all(out .== 0)

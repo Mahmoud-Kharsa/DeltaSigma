@@ -39,5 +39,6 @@ include("PosInvSet/dssplit2d.jl")
 include("PosInvSet/hull2d.jl")
 include("PosInvSet/leftof.jl")
 include("PosInvSet/outconvex2d.jl")
+include("PosInvSet/polyplot.jl")
 
 end # module
