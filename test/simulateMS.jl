@@ -1,4 +1,5 @@
 using ControlSystems
+using DSP
 using MAT
 
 @testset "simulateMS" begin
@@ -11,8 +12,8 @@ using MAT
     mtf2a = zpk([1,1],[0.3,0.3],1,1)
     mtf2b = synthesizeNTF(2, 25, 1, 2)
     mtf4 = synthesizeNTF(4, 25*0.9, 1, 1.3)
-    A0 = undbv(-3)
-    A1 = undbv(-30)
+    A0 = db2amp(-3)
+    A1 = db2amp(-30)
     f = round(0.01*N)
 
     # test vectors

@@ -2,12 +2,10 @@ module DeltaSigma
 
 export
     calculateSNR,
-    dbv,
     simulateDSM,
     simulateMS,
     simulateSNR,
-    synthesizeNTF,
-    undbv
+    synthesizeNTF
 
 # Main functions
 include("calculateSNR.jl")
@@ -17,9 +15,7 @@ include("simulateSNR.jl")
 include("synthesizeNTF.jl")
 
 # Helper functions
-include("dbv.jl")
 include("ds_optzeros.jl")
 include("selectElement.jl")
-include("undbv.jl")
 
 end # module
