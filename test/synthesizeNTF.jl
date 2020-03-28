@@ -1,6 +1,4 @@
-using Test
 using ControlSystems
-using DeltaSigma
 using MAT
 
 @testset "synthesizeNTF" begin
