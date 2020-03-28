@@ -2,9 +2,12 @@ module DeltaSigma
 
 export
     calculateSNR,
+    dssplit2d,
     find2dPIS,
     mapABCD,
+    outconvex2d,
     peakSNR,
+    polyplot!,
     predictSNR,
     realizeNTF,
     scaleABCD,
