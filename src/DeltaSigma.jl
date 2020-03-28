@@ -2,6 +2,7 @@ module DeltaSigma
 
 export
     calculateSNR,
+    peakSNR,
     predictSNR,
     simulateDSM,
     simulateMS,
@@ -10,6 +11,7 @@ export
 
 # Main functions
 include("calculateSNR.jl")
+include("peakSNR.jl")
 include("predictSNR.jl")
 include("simulateDSM.jl")
 include("simulateMS.jl")
