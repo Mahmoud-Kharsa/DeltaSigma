@@ -24,7 +24,7 @@ using MAT
     test = matread("resources/simulateMS.mat")
 
     for i = 1:n
-        u = M * A[i] * sin.(2*pi*f/N * (0:N-1)')
+        u = M * A[i] * sin.(2*pi*f/N * (0:N-1))
         v, = simulateDSM(u, ntf, M+1)
         sv, sx, sigma_se, max_sx, max_sy = simulateMS(v, M, mtf[i])
         @test sv == test["sv"][i]

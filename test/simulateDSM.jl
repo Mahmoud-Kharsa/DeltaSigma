@@ -1,35 +1,42 @@
+using DSP
 using MAT
 
 @testset "simulateDSM" begin
-
     # MATLAB output
     test = matread("resources/simulateDSM.mat")
 
-    # transfer function input test
-    N = 6   # number of tests
-    A     = [ 0.5,  0.5,    8,    8, 16*undbv(-3), 16*undbv(-30)]
-    f     = [  85, 1045,  146,  146,          164,           164]
-    n     = [8192, 8192, 8192, 8192,        16384,         16384]
-    order = [   5,    8,    7,    7,            6,             6]
-    osr   = [  32,   64,    8,    8,           25,            25]
-    H_inf = [ 1.5,  1.5,    2,    8,            4,             4]
-    f0    = [   0,  1/8,    0,    0,            0,             0]
-    nlev  = [   2,    2,   17,   17,           17,            17]
-    for i = 1:N
-        u = A[i] * sin.(2*pi*f[i]/n[i] * (0:n[i]-1)')
-        H = synthesizeNTF(order[i], osr[i], 1, H_inf[i], f0[i])
-        v, = simulateDSM(u, H, nlev[i])
-        @test test["v$i"] == v
+    # ntf input test
+    u1 = 0.5 * sin.(2*pi*85/8192 * (0:8191))
+    u2 = 0.5 * sin.(2*pi*1045/8192 * (0:8191))
+    u3 = 8 * sin.(2*pi*146/8192 * (0:8191))
+    u4 = 16 * db2amp(-3) * sin.(2*pi*164/16384 * (0:16383))
+    u5 = 16 * db2amp(-30) * sin.(2*pi*164/16384 * (0:16383))
+    ntf1 = synthesizeNTF(5, 32, 1)
+    ntf2 = synthesizeNTF(8, 64, 1, 1.5, 0.125)
+    ntf3 = synthesizeNTF(7, 8, 1, 2)
+    ntf4 = synthesizeNTF(7, 8, 1, 8)
+    ntf5 = synthesizeNTF(6, 25, 1, 4)
+    u    = [  u1,   u2,   u3,   u3,   u4,   u5]
+    ntf  = [ntf1, ntf2, ntf3, ntf4, ntf5, ntf5]
+    nlev = [   2,    2,   17,   17,   17,   17]
+    for i = 1:length(u)
+        v, _, _, y = simulateDSM(u[i], ntf[i], nlev[i])
+        @test vec(test["v_$i"]) == v
+        # Allow higher error tolerance because of differences in MATLAB and
+        # Julia state space models. This also why xn and xmax are ignored;
+        # the x vectors aren't the same. Default tolerance is sqrt(eps).
+        @test isapprox(vec(test["y_$i"]), y, rtol=10*sqrt(eps(Float64)))
     end
 
     # ABCD input test
     u = range(0, 0.6; length=30)
-    ABCD = test["ABCD"]  # TODO: generate using realizeNTF and stuffABCD
-    for i = 1:30
-        v, xn, xmax, = simulateDSM(u[i]*ones(1,10000), ABCD)
-        @test test["v"][i:i,:] == v
+    ntf = synthesizeNTF(5, 42, 1)
+    ABCD = test["ABCD"] # TODO: generate using realizeNTF and stuffABCD
+    for i = 1:length(u)
+        v, xn, xmax, y = simulateDSM(u[i]*ones(10000), ABCD)
+        @test vec(test["v"][i:i,:]) == v
         @test isapprox(test["xn"][i,:,:], xn)
         @test isapprox(test["xmax"][i,:,:], xmax)
+        @test isapprox(test["y"][i,:,:], y)
     end
-
 end
