@@ -31,7 +31,8 @@ using MAT
     # ABCD input test
     u = range(0, 0.6; length=30)
     ntf = synthesizeNTF(5, 42, 1)
-    ABCD = test["ABCD"] # TODO: generate using realizeNTF and stuffABCD
+    a, g, b, c = realizeNTF(ntf)
+    ABCD = stuffABCD(a, g, b, c)
     for i = 1:length(u)
         v, xn, xmax, y = simulateDSM(u[i]*ones(10000), ABCD)
         @test vec(test["v"][i:i,:]) == v
