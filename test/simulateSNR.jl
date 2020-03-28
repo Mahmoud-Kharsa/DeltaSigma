@@ -1,5 +1,3 @@
-using Test
-using DeltaSigma
 using MAT
 
 @testset "simulateSNR" begin

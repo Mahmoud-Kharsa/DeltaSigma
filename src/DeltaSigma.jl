@@ -9,14 +9,14 @@ export
     synthesizeNTF,
     undbv
 
-#Main functions
+# Main functions
 include("calculateSNR.jl")
 include("simulateDSM.jl")
 include("simulateMS.jl")
 include("simulateSNR.jl")
 include("synthesizeNTF.jl")
 
-#Helper functions
+# Helper functions
 include("createZPK.jl")
 include("dbv.jl")
 include("ds_optzeros.jl")
