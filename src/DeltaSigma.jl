@@ -31,5 +31,11 @@ include("calculateTF.jl")
 include("ds_optzeros.jl")
 include("partitionABCD.jl")
 include("selectElement.jl")
+include("PosInvSet/dscut.jl")
+include("PosInvSet/dsmap.jl")
+include("PosInvSet/dssplit2d.jl")
+include("PosInvSet/hull2d.jl")
+include("PosInvSet/leftof.jl")
+include("PosInvSet/outconvex2d.jl")
 
 end # module
