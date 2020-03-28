@@ -17,7 +17,6 @@ include("simulateSNR.jl")
 include("synthesizeNTF.jl")
 
 # Helper functions
-include("createZPK.jl")
 include("dbv.jl")
 include("ds_optzeros.jl")
 include("selectElement.jl")
