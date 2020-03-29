@@ -13,6 +13,7 @@ export
     realizeNTF,
     scaleABCD,
     simulateDSM,
+    simulateHBF,
     simulateMS,
     simulateSNR,
     stuffABCD,
@@ -27,6 +28,7 @@ include("predictSNR.jl")
 include("realizeNTF.jl")
 include("scaleABCD.jl")
 include("simulateDSM.jl")
+include("simulateHBF.jl")
 include("simulateMS.jl")
 include("simulateSNR.jl")
 include("stuffABCD.jl")
@@ -36,6 +38,7 @@ include("PosInvSet/find2dPIS.jl")
 # Helper functions
 include("bunquantize.jl")
 include("calculateTF.jl")
+include("delay.jl")
 include("ds_optzeros.jl")
 include("partitionABCD.jl")
 include("selectElement.jl")
