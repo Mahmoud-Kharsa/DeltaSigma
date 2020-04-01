@@ -2,6 +2,7 @@ module DeltaSigma
 
 export
     calculateSNR,
+    designHBF,
     dssplit2d,
     exampleHBF,
     find2dPIS,
@@ -21,6 +22,7 @@ export
 
 # Main functions
 include("calculateSNR.jl")
+include("designHBF.jl")
 include("exampleHBF.jl")
 include("mapABCD.jl")
 include("peakSNR.jl")
@@ -36,10 +38,14 @@ include("synthesizeNTF.jl")
 include("PosInvSet/find2dPIS.jl")
 
 # Helper functions
+include("bquantize.jl")
 include("bunquantize.jl")
 include("calculateTF.jl")
 include("delay.jl")
 include("ds_optzeros.jl")
+include("evalF0.jl")
+include("evalF1.jl")
+include("frespHBF.jl")
 include("partitionABCD.jl")
 include("selectElement.jl")
 include("PosInvSet/dscut.jl")
