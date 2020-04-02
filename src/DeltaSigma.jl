@@ -7,6 +7,7 @@ export
     dbv,
     designHBF,
     ds_hann,
+    dsdemo1,
     dsdemo2,
     dsdemo6,
     dsdemo7,
@@ -17,6 +18,7 @@ export
     peakSNR,
     predictSNR,
     realizeNTF,
+    rmsGain,
     scaleABCD,
     simulateDSM,
     simulateHBF,
@@ -52,10 +54,12 @@ include("dbv.jl")
 include("ds_hann.jl")
 include("partitionABCD.jl")
 include("peakSNR.jl")
+include("rmsGain.jl")
 include("undbp.jl")
 include("undbv.jl")
 
 # Demos
+include("demos/dsdemo1.jl")
 include("demos/dsdemo2.jl")
 include("demos/dsdemo6.jl")
 include("demos/dsdemo7.jl")
@@ -81,6 +85,7 @@ include("PosInvSet/outconvex2d.jl")
 # Internal graphing functions
 include("axisLabels.jl")
 include("figureMagic.jl")
+include("plotPZ.jl")
 include("PosInvSet/dotplot.jl")
 include("PosInvSet/polyplot.jl")
 
