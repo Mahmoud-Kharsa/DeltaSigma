@@ -10,6 +10,7 @@ export
     dsdemo1,
     dsdemo2,
     dsdemo3,
+    dsdemo5,
     dsdemo6,
     dsdemo7,
     exampleHBF,
@@ -63,6 +64,7 @@ include("undbv.jl")
 include("demos/dsdemo1.jl")
 include("demos/dsdemo2.jl")
 include("demos/dsdemo3.jl")
+include("demos/dsdemo5.jl")
 include("demos/dsdemo6.jl")
 include("demos/dsdemo7.jl")
 
@@ -71,6 +73,7 @@ include("bquantize.jl")
 include("bunquantize.jl")
 include("delay.jl")
 include("ds_optzeros.jl")
+include("ds_therm.jl")
 include("evalF0.jl")
 include("evalF1.jl")
 include("evalRPoly.jl")
@@ -87,7 +90,10 @@ include("PosInvSet/outconvex2d.jl")
 # Internal graphing functions
 include("axisLabels.jl")
 include("figureMagic.jl")
+include("logsmooth.jl")
 include("plotPZ.jl")
+include("plotSpectrum.jl")
+include("plotUsage.jl")
 include("PosInvSet/dotplot.jl")
 include("PosInvSet/polyplot.jl")
 
