@@ -1,4 +1,3 @@
-using DSP
 using Plots
 
 """
@@ -47,13 +46,13 @@ function frespHBF(f, f1, f2, phi=1, fp=0.2, msg="")
         plot!(plt, subplot=1, xlims=(0,0.5), xticks=0:0.05:0.5, yticks=0:0.5:1)
         plot!(plt, subplot=1, title=msg)
 
-        plot!(plt, f, amp2db.(abs.(mag)), subplot=2, legend=false)
+        plot!(plt, f, dbv(mag), subplot=2, legend=false)
         plot!(plt, subplot=2, xlims=(0,0.5), xticks=0:0.05:0.5, yticks=-150:50:0)
 
         msg = @sprintf("pbr=%.1e", pbr)
         plot!(plt, ann=(0.0, -10, text(msg, 10, :left)))
-        msg = @sprintf("sbr=%.0fdB", amp2db(sbr))
-        plot!(plt, ann=(0.5, amp2db(sbr), text(msg, 10, :right)))
+        msg = @sprintf("sbr=%.0fdB", dbv(sbr))
+        plot!(plt, ann=(0.5, dbv(sbr), text(msg, 10, :right)))
 
         display(plt)
         sleep(0.5) # slow down to see graphs

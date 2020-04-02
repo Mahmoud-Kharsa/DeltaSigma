@@ -84,7 +84,7 @@ function synthesizeNTF(order=3, osr=64.0, opt=0, H_inf=1.5, f0=0.0)
                 p = pairComplex(p)
 
                 ntf = zpk(z, p, 1, 1)
-                f = real(ntf(-1, false)[1, 1]) - H_inf
+                f = real(evalTF(ntf, -1)) - H_inf
                 if itn == 1
                     delta_x = -f / 100
                 else
@@ -133,7 +133,7 @@ function synthesizeNTF(order=3, osr=64.0, opt=0, H_inf=1.5, f0=0.0)
             p = pairComplex(p)
 
             ntf = zpk(z, p, 1, 1)
-            f = real(ntf(z_inf, false)[1, 1]) - H_inf
+            f = real(evalTF(ntf, z_inf)) - H_inf
             if itn == 1
                 delta_x = -f / 100
             else

@@ -9,7 +9,9 @@ See realizeNTF for a list of supported structures.
 
 stuffABCD is the inverse function.
 """
-function mapABCD(ABCD, form="CFRB")
+function mapABCD(ABCD, form="CRFB")
+    ABCD = copy(ABCD)
+
     order = size(ABCD, 1) - 1
     odd = rem(order, 2)
     even = 1- odd

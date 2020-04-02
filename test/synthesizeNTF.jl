@@ -1,4 +1,3 @@
-using ControlSystems
 using MAT
 
 @testset "synthesizeNTF" begin
@@ -14,7 +13,6 @@ using MAT
 
     for i = 1:length(order)
         ntf = synthesizeNTF(order[i], osr[i], opt[i], H_inf[i], f0[i])
-        data = zpkdata(ntf)
 
         z = ntf.matrix[1].z
         p = ntf.matrix[1].p
