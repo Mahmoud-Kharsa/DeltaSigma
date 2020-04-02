@@ -1,4 +1,3 @@
-using DSP
 using FFTW
 
 """
@@ -59,7 +58,7 @@ function simulateSNR(arg1, osr, amp=[-120:10:-20; -15; -10:0], f0=0, nlev=2, f=N
     soft_start = 0.5 * (1 .- cos.(2*pi/Ntransient * (0:(Ntransient/2-1))))
     tone = M * sin.(2*pi*F/N * (0:(N+Ntransient-1)))
     tone[1:(Ntransient÷2)] = tone[1:(Ntransient÷2)] .* soft_start
-    window = hanning(N+1)[1:N]  # Hann window
+    window = ds_hann(N) # Hann window
 
     if f0 == 0
         # Exclude DC and its adjacent bin

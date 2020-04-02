@@ -103,9 +103,9 @@ function designHBF(fp=0.2, delta=1e-5, debug=false)
         n1 = length(f1_saved[1])
         n2 = length(f2_saved[1])
         if debug
-            @printf("%s (%d,%d,%.0fdB)\n", msg, n1, n2, amp2db(sbr))
+            @printf("%s (%d,%d,%.0fdB)\n", msg, n1, n2, dbv(sbr))
         end
-        info = [complexity; n1; n2; amp2db(sbr); phi_saved]
+        info = [complexity; n1; n2; dbv(sbr); phi_saved]
     end
 
     return f1_saved, f2_saved, info

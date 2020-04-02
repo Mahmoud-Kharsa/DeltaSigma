@@ -1,5 +1,4 @@
 using ControlSystems
-using DSP
 using Interpolations
 using SpecialFunctions
 
@@ -167,7 +166,7 @@ function predictSNR(ntf, R=64, amp=[-120:10:-20; -15; -10:0], f0=0)
         h = freqz(PolynomialRatio(num, (1-k1[n])*num + k1[n]*den), band_of_interest)
         # For both DC and sine wave inputs, use u^2/2 as the signal
         # power since true DC measurements are usually impossible.
-        snr[n] = pow2db(abs(0.5*u[n]^2 / (sum(h.^2)/(R*Nb)*sigma_e2[n])))
+        snr[n] = dbp(0.5*u[n]^2 / (sum(h.^2) / (R*Nb) * sigma_e2[n]))
     end
 
     return snr, amp, k0, k1, sigma_e2

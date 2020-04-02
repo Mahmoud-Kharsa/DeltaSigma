@@ -1,5 +1,3 @@
-using DSP
-
 """
     snr = calculateSNR(hwfft, f, nsig=1)
 
@@ -21,7 +19,7 @@ function calculateSNR(hwfft, f, nsig=1)
     if n == 0
         snr = Inf
     else
-        snr = amp2db(s/n)
+        snr = dbv(s/n)
     end
 
     return snr

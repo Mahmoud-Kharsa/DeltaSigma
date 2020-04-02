@@ -1,5 +1,3 @@
-using Polynomials
-
 """
     a, g, b, c = realizeNTF(ntf, form="CRFB", stf=nothing)
 
@@ -68,12 +66,12 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
             z = zSet[i]
 
             # L1(z) = 1-1/H(z)
-            L1[i] = 1 - poly(ntf_p)(z) / poly(ntf_z)(z)
+            L1[i] = 1 - evalRPoly(ntf_p, z) / evalRPoly(ntf_z, z)
 
             Dfactor = (z - 1) / z
             product = 1
             for j = order:-2:(odd+1)
-                product = z / poly(ntf_z[j-1:j])(z) * product
+                product = z / evalRPoly(ntf_z[j-1:j], z) * product
                 T[j,i] = Dfactor * product
                 T[j-1,i] = product
             end
@@ -101,7 +99,7 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
             z = zSet[i]
 
             # L1(z) = 1-1/H(z)
-            L1[i] = 1 - poly(ntf_p)(z) / poly(ntf_z)(z)
+            L1[i] = 1 - evalRPoly(ntf_p, z) / evalRPoly(ntf_z, z)
 
             if odd == 1
                 Dfactor = z - 1
@@ -112,7 +110,7 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
                 product = 1
             end
             for j = (odd+1):2:order
-                product = z / poly(ntf_z[j:j+1])(z) * product
+                product = z / evalRPoly(ntf_z[j:j+1], z) * product
                 T[j,i] = product * Dfactor
                 T[j+1,i] = product
             end
@@ -141,12 +139,12 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
             z = zSet[i]
 
             # L1(z) = 1-1/H(z)
-            L1[i] = 1 - poly(ntf_p)(z) / poly(ntf_z)(z)
+            L1[i] = 1 - evalRPoly(ntf_p, z) / evalRPoly(ntf_z, z)
 
             Dfactor = z - 1
             product = 1
             for j = order:-2:(odd+1)
-                product = product / poly(ntf_z[j-1:j])(z)
+                product = product / evalRPoly(ntf_z[j-1:j], z)
                 T[j,i] = product * Dfactor
                 T[j-1,i] = product
             end
@@ -179,7 +177,7 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
             z = zSet[i]
 
             # L1(z) = 1-1/H(z)
-            L1[i] = 1 - poly(ntf_p)(z) / poly(ntf_z)(z)
+            L1[i] = 1 - evalRPoly(ntf_p, z) / evalRPoly(ntf_z, z)
 
             Dfactor = z - 1
             if odd == 1
@@ -189,7 +187,7 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
                 product = 1
             end
             for  j= (odd+1):2:(order-1)
-                product = product / poly(ntf_z[j:j+1])(z)
+                product = product / evalRPoly(ntf_z[j:j+1], z)
                 T[j,i] = product * Dfactor
                 T[j+1,i] = product
             end
@@ -213,12 +211,12 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
             z = zSet[i]
 
             # L1(z) = 1-1/H(z)
-            L1[i] = 1 - poly(ntf_p)(z) / poly(ntf_z)(z)
+            L1[i] = 1 - evalRPoly(ntf_p, z) / evalRPoly(ntf_z, z)
 
             Dfactor = z - 1
             product = 1 / z
             for j = order:-2:(odd+1)
-                product = z / poly(ntf_z[(j-1):j])(z) * product
+                product = z / evalRPoly(ntf_z[(j-1):j], z) * product
                 T[j,i] = product * Dfactor
                 T[j-1,i] = product
             end
@@ -246,7 +244,7 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
             z = zSet[i]
 
             # zL1 = z*(1-1/H(z))
-            zL1[i] = z * (1 - poly(ntf_p)(z) / poly(ntf_z)(z))
+            zL1[i] = z * (1 - evalRPoly(ntf_p, z) / evalRPoly(ntf_z, z))
 
             if odd == 1
                 Dfactor = (z - 1) / z
@@ -257,7 +255,7 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
                 product = 1
             end
             for j = (odd+1):2:order
-                product = z / poly(ntf_z[j:j+1])(z) * product
+                product = z / evalRPoly(ntf_z[j:j+1], z) * product
                 T[j,i] = product * Dfactor
                 T[j+1,i] = product
             end
@@ -294,7 +292,7 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
             z = zSet[i]
 
             # L(z) = 1-1/H(z)
-            L1[i] = 1 - poly(ntf_p)(z) / poly(ntf_z)(z)
+            L1[i] = 1 - evalRPoly(ntf_p, z) / evalRPoly(ntf_z, z)
 
             if odd_1 == 1
                 Dfactor = z - 1
@@ -305,7 +303,7 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
                 product = 1
             end
             for j = (odd_1+1):2:order_1
-                product = z / poly(ntf_z[j:j+1])(z) * product
+                product = z / evalRPoly(ntf_z[j:j+1], z) * product
                 T[j,i] = product * Dfactor
                 T[j+1,i] = product
             end
@@ -319,7 +317,7 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
                 product = 1
             end
             for j = (order_1+1+odd_2):2:order
-                product = z / poly(ntf_z[j:j+1])(z) * product
+                product = z / evalRPoly(ntf_z[j:j+1], z) * product
                 T[j,i] = product * Dfactor
                 T[j+1,i] = product
             end
@@ -345,7 +343,7 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
             z = zSet[i]
 
             # L1(z) = 1-1/H(z)
-            L1[i] = 1 - poly(ntf_p)(z) / poly(ntf_z)(z)
+            L1[i] = 1 - evalRPoly(ntf_p,z) / evalRPoly(ntf_z, z)
 
             Dfactor = z - 1
             if odd == 1
@@ -355,7 +353,7 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
                 product = 1
             end
             for  j= (odd+1):2:(order-1)
-                product = product / poly(ntf_z[j:j+1])(z)
+                product = product / evalRPoly(ntf_z[j:j+1], z)
                 T[j,i] = product * Dfactor
                 T[j+1,i] = product
             end
@@ -382,7 +380,7 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
             z = zSet[i]
 
             # L(z) = 1-1/H(z)
-            L1[i] = 1 - poly(ntf_p)(z) / poly(ntf_z)(z)
+            L1[i] = 1 - evalRPoly(ntf_p, z) / evalRPoly(ntf_z, z)
 
             if odd == 1
                 product = 1 / (z - 1)
@@ -429,9 +427,9 @@ function realizeNTF(ntf, form="CRFB", stf=nothing)
         # Build the matrix equation b*A = x and solve it.
         A = zeros(ComplexF64, order+1, length(zSet))
         for i = 1:order+1
-            A[i,:] = stfList[i](zSet, false)[:,1,1]
+            A[i,:] = evalTF(stfList[i], zSet)
         end
-        x = stf(zSet, false)[:,1,1]
+        x = evalTF(stf, zSet)
         x = transpose(x)
         b = real(x / A)[:]
     end

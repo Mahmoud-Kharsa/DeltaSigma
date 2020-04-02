@@ -2,14 +2,16 @@ module DeltaSigma
 
 export
     calculateSNR,
+    calculateTF,
+    dbp,
+    dbv,
     designHBF,
-    dssplit2d,
+    ds_hann,
     exampleHBF,
     find2dPIS,
     mapABCD,
-    outconvex2d,
+    partitionABCD,
     peakSNR,
-    polyplot!,
     predictSNR,
     realizeNTF,
     scaleABCD,
@@ -18,35 +20,48 @@ export
     simulateMS,
     simulateSNR,
     stuffABCD,
-    synthesizeNTF
+    synthesizeNTF,
+    undbp,
+    undbv
 
-# Main functions
-include("calculateSNR.jl")
-include("designHBF.jl")
-include("exampleHBF.jl")
+# Key functions
+include("calculateTF.jl")
 include("mapABCD.jl")
-include("peakSNR.jl")
-include("predictSNR.jl")
 include("realizeNTF.jl")
 include("scaleABCD.jl")
 include("simulateDSM.jl")
-include("simulateHBF.jl")
 include("simulateMS.jl")
 include("simulateSNR.jl")
 include("stuffABCD.jl")
 include("synthesizeNTF.jl")
+
+# Speciality Functions
+include("designHBF.jl")
+include("exampleHBF.jl")
+include("predictSNR.jl")
+include("simulateHBF.jl")
 include("PosInvSet/find2dPIS.jl")
 
-# Helper functions
+# Utility functions
+include("calculateSNR.jl")
+include("dbp.jl")
+include("dbv.jl")
+include("ds_hann.jl")
+include("partitionABCD.jl")
+include("peakSNR.jl")
+include("undbp.jl")
+include("undbv.jl")
+
+# Internal helper functions
 include("bquantize.jl")
 include("bunquantize.jl")
-include("calculateTF.jl")
 include("delay.jl")
 include("ds_optzeros.jl")
 include("evalF0.jl")
 include("evalF1.jl")
+include("evalRPoly.jl")
+include("evalTF.jl")
 include("frespHBF.jl")
-include("partitionABCD.jl")
 include("selectElement.jl")
 include("PosInvSet/dscut.jl")
 include("PosInvSet/dsmap.jl")

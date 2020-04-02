@@ -1,4 +1,3 @@
-using DSP
 using MAT
 
 @testset "simulateDSM" begin
@@ -9,8 +8,8 @@ using MAT
     u1 = 0.5 * sin.(2*pi*85/8192 * (0:8191))
     u2 = 0.5 * sin.(2*pi*1045/8192 * (0:8191))
     u3 = 8 * sin.(2*pi*146/8192 * (0:8191))
-    u4 = 16 * db2amp(-3) * sin.(2*pi*164/16384 * (0:16383))
-    u5 = 16 * db2amp(-30) * sin.(2*pi*164/16384 * (0:16383))
+    u4 = 16 * undbv(-3) * sin.(2*pi*164/16384 * (0:16383))
+    u5 = 16 * undbv(-30) * sin.(2*pi*164/16384 * (0:16383))
     ntf1 = synthesizeNTF(5, 32, 1)
     ntf2 = synthesizeNTF(8, 64, 1, 1.5, 0.125)
     ntf3 = synthesizeNTF(7, 8, 1, 2)
