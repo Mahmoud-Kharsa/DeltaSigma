@@ -9,6 +9,7 @@ export
     ds_hann,
     dsdemo1,
     dsdemo2,
+    dsdemo3,
     dsdemo6,
     dsdemo7,
     exampleHBF,
@@ -61,6 +62,7 @@ include("undbv.jl")
 # Demos
 include("demos/dsdemo1.jl")
 include("demos/dsdemo2.jl")
+include("demos/dsdemo3.jl")
 include("demos/dsdemo6.jl")
 include("demos/dsdemo7.jl")
 
