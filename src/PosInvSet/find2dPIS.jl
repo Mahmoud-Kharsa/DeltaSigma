@@ -1,3 +1,5 @@
+using PyPlot
+
 """
     s = find2dPIS(u, ABCD, options)
 
@@ -15,7 +17,7 @@ function find2dPIS(u, ABCD, options=[])
     end
 
     nlev = 2
-    dbg = (length(options) >= 1) ? options[1] : 0
+    dbg = (length(options) >= 1) ? options[1] : false
     itnLimit = (length(options) >= 2) ? options[2] : 100
     expFactor = (length(options) >= 3) ? options[3] : 0.005
     N = (length(options) >= 4) ? options[4] : 1000
@@ -59,25 +61,19 @@ function find2dPIS(u, ABCD, options=[])
         # Test for inclusion: ns inside s (the inflated hull)
         out = outconvex2d(ns, s)
 
-        if dbg == 1
-            plot(legend=false, size=(550,450))
-            plot!(xlims=(axis1[1], axis1[2]), ylims=(axis1[3], axis1[4]))
-            plot!(xticks=round(axis1[1]):0.5:round(axis1[2]))
-            plot!(yticks=round(axis1[3]):1:round(axis1[4]))
-
-            plot!(ec[1,:], ec[2,:], line=(:scatter), marker=(6, :white, stroke(:red)))
-            plot!( x[1,:], x[2,:], line=(:scatter), marker=(2, :black))
-
+        if dbg
+            clf()
+            grid()
+            axis(axis1)
+            dotplot(x, "k", ".")
+            dotplot(ec, "r", "o")
+            polyplot(s, "b")
+            polyplot(s1, "m")
+            polyplot(s2, "c")
             outi = (out .!= 0)[:]
-            plot!(ns[1,outi], ns[2,outi], line=(:scatter), marker=(:square, :white, stroke(:red)))
-
-            polyplot!(s, :blue)
-            polyplot!(s1, :magenta)
-            polyplot!(s2, :cyan)
-
+            dotplot(ns[:,outi], "r", "s")
             str = @sprintf("Iteration %d: %d image vertices outside", i, sum(outi))
-            plot!(title=str)
-            display(plot!())
+            title(str)
             sleep(0.1)
         end
 

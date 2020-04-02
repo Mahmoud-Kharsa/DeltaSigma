@@ -7,6 +7,9 @@ export
     dbv,
     designHBF,
     ds_hann,
+    dsdemo2,
+    dsdemo6,
+    dsdemo7,
     exampleHBF,
     find2dPIS,
     mapABCD,
@@ -52,6 +55,11 @@ include("peakSNR.jl")
 include("undbp.jl")
 include("undbv.jl")
 
+# Demos
+include("demos/dsdemo2.jl")
+include("demos/dsdemo6.jl")
+include("demos/dsdemo7.jl")
+
 # Internal helper functions
 include("bquantize.jl")
 include("bunquantize.jl")
@@ -69,6 +77,11 @@ include("PosInvSet/dssplit2d.jl")
 include("PosInvSet/hull2d.jl")
 include("PosInvSet/leftof.jl")
 include("PosInvSet/outconvex2d.jl")
+
+# Internal graphing functions
+include("axisLabels.jl")
+include("figureMagic.jl")
+include("PosInvSet/dotplot.jl")
 include("PosInvSet/polyplot.jl")
 
 end # module

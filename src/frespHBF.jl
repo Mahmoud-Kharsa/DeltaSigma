@@ -1,4 +1,4 @@
-using Plots
+using PyPlot
 
 """
     mag, pbr, sbr = frespHBF(f, f1, f2, phi, fp, msg)
@@ -37,24 +37,31 @@ function frespHBF(f, f1, f2, phi=1, fp=0.2, msg="")
     sbr = maximum(abs.(mag[stopband]))
 
     if !isempty(msg)
-        plt = plot(layout=(2,1), size=(650,500))
+        clf()
+        gcf().canvas.set_window_title("HBF Frequency Response")
+
+        subplot(211)
 
         F1 = evalF0(f1, z, phi)
-        plot!(plt, f, abs.(F1), subplot=1, label="F1", line=(:dash, :blue))
-        plot!(plt, f, phi*abs.(F2), subplot=1, label="F2", line=(:dot, :darkorange))
-        plot!(plt, f, abs.(mag), subplot=1, label="HBF", line=(:darkorange))
-        plot!(plt, subplot=1, xlims=(0,0.5), xticks=0:0.05:0.5, yticks=0:0.5:1)
-        plot!(plt, subplot=1, title=msg)
+        plot(f, abs.(F1), linestyle="--", linewidth=1)
+        plot(f, phi*abs.(F2), linestyle=":", linewidth=1)
+        plot(f, abs.(mag), linewidth=1)
+        legend(["F1", "F2", "HBF"])
+        title(msg)
+        grid()
+        axis([0, 0.5, 0, 1.1])
 
-        plot!(plt, f, dbv(mag), subplot=2, legend=false)
-        plot!(plt, subplot=2, xlims=(0,0.5), xticks=0:0.05:0.5, yticks=-150:50:0)
+        subplot(212)
+
+        plot(f, dbv(mag))
+        axis([0, 0.5, -150, 10])
+        grid()
 
         msg = @sprintf("pbr=%.1e", pbr)
-        plot!(plt, ann=(0.0, -10, text(msg, 10, :left)))
-        msg = @sprintf("sbr=%.0fdB", dbv(sbr))
-        plot!(plt, ann=(0.5, dbv(sbr), text(msg, 10, :right)))
+        text(0.0, -10, msg, verticalalignment="top")
+        msg = @sprintf("sbr=%.0fdB", amp2db(sbr))
+        text(0.5, dbv(sbr), msg, horizontalalignment="right", verticalalignment="bottom")
 
-        display(plt)
         sleep(0.5) # slow down to see graphs
     end
 

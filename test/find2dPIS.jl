@@ -11,6 +11,6 @@ using MAT
     ABCD = [A B; C D]
     u = 1 / pi
 
-    s = find2dPIS(u, ABCD, 0)
+    s = find2dPIS(u, ABCD, false)
     @test test["s"] == s
 end
